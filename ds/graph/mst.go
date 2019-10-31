@@ -23,7 +23,7 @@ func (h eHeap) Less(i, j int) bool {
 }
 
 func (h *eHeap) Push(e interface{}) {
-  *h = append(*h, e.(SEdge))
+	*h = append(*h, e.(SEdge))
 }
 
 func (h *eHeap) Pop() interface{} {
@@ -37,19 +37,19 @@ func (h *eHeap) Pop() interface{} {
 //
 // We use the optimized kruskal's algo which
 // reaches the pseudo-linear complexity.
-func (g* Graph) MST() *Graph {
+func (g *Graph) MST() *Graph {
 
 	mst, _ := NewGraph("")
 
 	// Initialize all union-find sets
 	// This step costs O(V).
-	ufs := make([]*uf.Node, len(g.V))	
+	ufs := make([]*uf.Node, len(g.V))
 	for i := range g.V {
 		ufs[i] = uf.NewUFSet(i)
 	}
 
 	// Use a min-heap to optimize the algo.
-	// 
+	//
 	// Building a min-heap only costs O(E),
 	// and every pop operation costs O(logK) where
 	// K is equal to the size of heap.
@@ -69,7 +69,7 @@ func (g* Graph) MST() *Graph {
 		ufa := uf.Findroot(ufs[e.(SEdge).EndpointA])
 		ufb := uf.Findroot(ufs[e.(SEdge).EndpointB])
 
-		// If two verticles are in different ufs, 
+		// If two verticles are in different ufs,
 		// combine their ufs and record the edge to mst.
 		if ufa != ufb {
 
@@ -90,11 +90,11 @@ func (g* Graph) MST() *Graph {
 
 			// Build verticles to be added to mst.
 			v1 := &Verticle{
-				ID: va.ID,
+				ID:    va.ID,
 				Edges: []Edge{},
 			}
 			v2 := &Verticle{
-				ID: vb.ID,
+				ID:    vb.ID,
 				Edges: []Edge{},
 			}
 
@@ -109,8 +109,7 @@ func (g* Graph) MST() *Graph {
 			} else if vaExist == nil && vbExist != nil {
 				mst.AddVerticle(v1)
 			} else {
-				// There must be something wrong...
-				return nil
+				// just pass
 			}
 			mst.Connect(v1.ID, v2.ID, e.(SEdge).Weight)
 

@@ -39,7 +39,7 @@ type Edge struct {
 type Graph struct {
 	Type int        `yaml:"type"`
 	V    []Verticle `yaml:"v"`
-	E 	 []SEdge    `yaml:"e"`// Overlap here
+	E    []SEdge
 }
 
 /**********************************
@@ -59,9 +59,9 @@ type Node struct {
 // SEdge contains two endpoint's info
 // instead of one.
 type SEdge struct {
-	Weight int	`yaml:"weight"`
-	EndpointA int `yaml:"epa"`
-	EndpointB int `yaml:"epb"`
+	Weight    int
+	EndpointA int
+	EndpointB int
 }
 
 /**********************************
@@ -159,6 +159,21 @@ func NewGraph(conf interface{}) (*Graph, error) {
 		}
 	}
 
+	// Translate V to E
+	for _, v := range g.V {
+		for _, e := range v.Edges {
+			// If `g` is an undirected graph, to avoid replicated
+			// edges, we only record half of edges.
+			if v.Serial < e.Endpoint || g.Type == DIRECTED {
+				g.E = append(g.E, SEdge{
+					Weight:    e.Weight,
+					EndpointA: v.Serial,
+					EndpointB: e.Endpoint,
+				})
+			}
+		}
+	}
+
 	// Now each edge's endpoint is equal to relevant verticle's index.
 
 	return &g, nil
@@ -189,7 +204,7 @@ func (g *Graph) AddVerticle(v *Verticle) error {
 	for i, e := range v.Edges {
 		v.Edges[i].Endpoint = g.GetVerticleByID(e.EndpointID).Serial
 		g.E = append(g.E, SEdge{
-			Weight: e.Weight,
+			Weight:    e.Weight,
 			EndpointA: v.Serial,
 			EndpointB: v.Edges[i].Endpoint,
 		})
@@ -231,7 +246,7 @@ func (g *Graph) Connect(srcID interface{}, destID interface{}, weight int) error
 	}
 
 	g.E = append(g.E, SEdge{
-		Weight: weight,
+		Weight:    weight,
 		EndpointA: src.Serial,
 		EndpointB: dst.Serial,
 	})

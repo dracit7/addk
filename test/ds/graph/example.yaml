@@ -1,30 +1,44 @@
 type: 0
 v:
-  - id: 1
+  - id: A
     edges:
-      - endpoint: 2
-        weight: 3
-      - endpoint: 3
+      - endpoint: B
         weight: 1
-  - id: 2
-    edges:
-      - endpoint: 1
-        weight: 3
-      - endpoint: 3
+      - endpoint: C
+        weight: 4
+      - endpoint: D
+        weight: 5
+      - endpoint: E
         weight: 2
-  - id: 3
+  - id: B
     edges:
-      - endpoint: 1
+      - endpoint: A
         weight: 1
-      - endpoint: 2
+      - endpoint: C
+        weight: 3
+      - endpoint: D
         weight: 2
-e:
-  - weight: 3
-    epa: 0
-    epb: 1
-  - weight: 1
-    epa: 0
-    epb: 2
-  - weight: 2
-    epa: 1
-    epb: 2
+  - id: C
+    edges:
+      - endpoint: A
+        weight: 4
+      - endpoint: B
+        weight: 3
+      - endpoint: D
+        weight: 1
+  - id: D
+    edges:
+      - endpoint: A
+        weight: 5
+      - endpoint: B
+        weight: 2
+      - endpoint: C
+        weight: 1
+      - endpoint: E
+        weight: 2
+  - id: E
+    edges:
+      - endpoint: A
+        weight: 2
+      - endpoint: D
+        weight: 2

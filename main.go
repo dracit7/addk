@@ -29,6 +29,7 @@ func main() {
 
 	mst := g.MST()
 
+	// fmt.Printf("%+v\n", g)
 	fmt.Printf("%+v\n", mst)
 
 	n := mst.ToNodes()
