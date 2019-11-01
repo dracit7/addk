@@ -290,3 +290,8 @@ func (g *Graph) ToNodes() []*Node {
 	return nodes
 
 }
+
+// ToEdges transfer a graph into edges representation.
+func (g *Graph) ToEdges() []SEdge {
+	return g.E
+}
