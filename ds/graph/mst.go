@@ -113,6 +113,21 @@ func (g *Graph) MST() *Graph {
 			}
 			mst.Connect(v1.ID, v2.ID, e.(SEdge).Weight)
 
+			// Set va and vb's InMST flags
+			//
+			// This step costs O(1) in most cases, and can be omitted if
+			// we don't want to visualize the data structure.
+			for i, edge := range g.V[e.(SEdge).EndpointA].Edges {
+				if edge.Endpoint == e.(SEdge).EndpointB {
+					g.V[e.(SEdge).EndpointA].Edges[i].InMST = true
+				}
+			}
+			for i, edge := range g.V[e.(SEdge).EndpointB].Edges {
+				if edge.Endpoint == e.(SEdge).EndpointA {
+					g.V[e.(SEdge).EndpointB].Edges[i].InMST = true
+				}
+			}
+
 		}
 
 	}

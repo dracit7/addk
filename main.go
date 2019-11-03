@@ -27,9 +27,12 @@ func main() {
 		return
 	}
 
-	mst := g.MST()
+	g.MST()
 
-	visual.Dump(mst, "mst")
-	visual.Dump(g, "g")
+	spec := &visual.Spec{
+		MST: true,
+	}
+
+	visual.Dump(g, "mst", spec)
 
 }

@@ -30,9 +30,13 @@ type Verticle struct {
 
 // Edge *
 type Edge struct {
+	// Data
 	Endpoint   int         `yaml:"-"`        // endpoint's serial
 	EndpointID interface{} `yaml:"endpoint"` // endpoint's ID
 	Weight     int         `yaml:"weight"`
+
+	// Flags
+	InMST bool
 }
 
 // Graph *
@@ -193,6 +197,19 @@ func (g *Graph) GetVerticleByID(id interface{}) *Verticle {
 
 }
 
+// GetEdgeByEndpoint finds an edge in `v` with specified endpoint.
+func (v *Verticle) GetEdgeByEndpoint(endpoint int) *Edge {
+
+	for _, e := range v.Edges {
+		if e.Endpoint == endpoint {
+			return &e
+		}
+	}
+
+	return nil
+
+}
+
 // AddVerticle adds a new verticle to `g`.
 func (g *Graph) AddVerticle(v *Verticle) error {
 
@@ -220,6 +237,8 @@ func (g *Graph) AddVerticle(v *Verticle) error {
 			})
 		}
 	}
+
+	g.eraseFlags()
 
 	return nil
 
@@ -263,6 +282,8 @@ func (g *Graph) Connect(srcID interface{}, destID interface{}, weight int) error
 		}
 	}
 
+	g.eraseFlags()
+
 	return nil
 
 }
@@ -294,4 +315,16 @@ func (g *Graph) ToNodes() []*Node {
 // ToEdges transfer a graph into edges representation.
 func (g *Graph) ToEdges() []SEdge {
 	return g.E
+}
+
+// Any write operation to g must call `eraseFlags()` before returning.
+func (g *Graph) eraseFlags() {
+
+	// MST
+	for i, v := range g.V {
+		for j := range v.Edges {
+			g.V[i].Edges[j].InMST = false
+		}
+	}
+
 }
