@@ -1,0 +1,80 @@
+type: 0
+v:
+  - id: 1
+    edges:
+      - endpoint: 2
+        weight: 5
+      - endpoint: 3
+        weight: 2
+  - id: 2
+    edges:
+      - endpoint: 1
+        weight: 5
+      - endpoint: 3
+        weight: 2
+      - endpoint: 4
+        weight: 3
+      - endpoint: 5
+        weight: 7
+  - id: 3
+    edges:
+      - endpoint: 1
+        weight: 2
+      - endpoint: 2
+        weight: 2
+      - endpoint: 4
+        weight: 3
+      - endpoint: 7
+        weight: 9
+  - id: 4
+    edges:
+      - endpoint: 2
+        weight: 3
+      - endpoint: 3
+        weight: 3
+      - endpoint: 5
+        weight: 2
+      - endpoint: 7
+        weight: 6
+  - id: 5
+    edges:
+      - endpoint: 2
+        weight: 7
+      - endpoint: 4
+        weight: 2
+      - endpoint: 7
+        weight: 5
+      - endpoint: 8
+        weight: 7
+      - endpoint: 6
+        weight: 8
+  - id: 6
+    edges:
+      - endpoint: 5
+        weight: 8
+      - endpoint: 8
+        weight: 3
+      - endpoint: 9
+        weight: 4
+  - id: 7
+    edges:
+      - endpoint: 3
+        weight: 9
+      - endpoint: 4
+        weight: 6
+      - endpoint: 5
+        weight: 5
+      - endpoint: 8
+        weight: 2
+  - id: 8
+    edges:
+      - endpoint: 7
+        weight: 2
+      - endpoint: 5
+        weight: 7
+      - endpoint: 6
+        weight: 3
+  - id: 9
+    edges:
+      - endpoint: 6
+        weight: 4

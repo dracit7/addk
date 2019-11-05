@@ -1,0 +1,90 @@
+type: 0
+v:
+  - id: A
+    edges:
+      - endpoint: B
+        weight: 3
+      - endpoint: F
+        weight: 2
+  - id: B
+    edges:
+      - endpoint: A
+        weight: 3
+      - endpoint: D
+        weight: 16
+      - endpoint: C
+        weight: 17
+  - id: C
+    edges:
+      - endpoint: B
+        weight: 17
+      - endpoint: D
+        weight: 8
+      - endpoint: I
+        weight: 18
+  - id: D
+    edges:
+      - endpoint: B
+        weight: 16
+      - endpoint: I
+        weight: 4
+      - endpoint: C
+        weight: 8
+      - endpoint: E
+        weight: 11
+  - id: E
+    edges:
+      - endpoint: D
+        weight: 11
+      - endpoint: I
+        weight: 10
+      - endpoint: F
+        weight: 1
+      - endpoint: H
+        weight: 5
+      - endpoint: G
+        weight: 6
+  - id: F
+    edges:
+      - endpoint: A
+        weight: 2
+      - endpoint: E
+        weight: 1
+      - endpoint: G
+        weight: 7
+  - id: G
+    edges:
+      - endpoint: F
+        weight: 9
+      - endpoint: E
+        weight: 6
+      - endpoint: H
+        weight: 15
+  - id: H
+    edges:
+      - endpoint: G
+        weight: 15
+      - endpoint: E
+        weight: 5
+      - endpoint: I
+        weight: 12
+      - endpoint: J
+        weight: 13
+  - id: I
+    edges:
+      - endpoint: C
+        weight: 18
+      - endpoint: D
+        weight: 4 
+      - endpoint: E
+        weight: 10
+      - endpoint: H
+        weight: 12
+      - endpoint: J
+        weight: 9
+  - id: J
+    edges:
+      - endpoint: I
+        weight: 9
+      - endpoint: H
+        weight: 13

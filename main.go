@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
+	"github.com/dracit7/algorithms/algo"
 	"github.com/dracit7/algorithms/ds/graph"
 	"github.com/dracit7/algorithms/visual"
 )
@@ -13,9 +14,15 @@ type node struct {
 	Next []*node
 }
 
+type element int
+
+func (e element) LessThan(f algo.Element) bool {
+	return e < f.(element)
+}
+
 func main() {
 
-	s, err := ioutil.ReadFile("test/ds/graph/example.yaml")
+	s, err := ioutil.ReadFile("input/ds/graph/mst2.yaml")
 	if err != nil {
 		fmt.Printf(err.Error())
 		return

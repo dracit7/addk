@@ -9,22 +9,24 @@ package uf
 // Since we only need to trace the root of an uf
 // set, there's no need to add any other pointer.
 type Node struct {
-	ID int
+	ID     int
 	Parent *Node
 }
 
 // NewUFSet returns a uf set with a bare root.
 func NewUFSet(id int) *Node {
-	return &Node{
-		ID: id,
+	n := &Node{
+		ID:     id,
 		Parent: nil,
 	}
+	n.Parent = n
+	return n
 }
 
 // Findroot finds the root of the uf set which contains `n`.
 func Findroot(n *Node) *Node {
 	for {
-		if n.Parent == nil {
+		if n.Parent == n {
 			return n
 		}
 		n = n.Parent

@@ -56,18 +56,26 @@ func (g *Graph) MST() *Graph {
 	EHeap := eHeap(g.E)
 	heap.Init(&EHeap)
 
-	for i := 0; i < len(EHeap); i++ {
+	for i := 0; i < len(g.V)-1; i++ {
 
 		// Get the shortest edge
 		//
-		// This step costs O(logK).
+		// This step costs O(logK). If we use a
+		// soft heap here, the amortized complexity
+		// would be O(1) instead.
 		e := heap.Pop(&EHeap)
 
 		// Find the union-find sets of each endpoints
 		//
-		// This step costs less than O(logV).
+		// This step costs O(1) with path compression.
 		ufa := uf.Findroot(ufs[e.(SEdge).EndpointA])
 		ufb := uf.Findroot(ufs[e.(SEdge).EndpointB])
+
+		// Path compression.
+		//
+		// This step costs O(α(N))
+		ufs[e.(SEdge).EndpointA].Parent = ufa
+		ufs[e.(SEdge).EndpointB].Parent = ufb
 
 		// If two verticles are in different ufs,
 		// combine their ufs and record the edge to mst.
@@ -80,9 +88,7 @@ func (g *Graph) MST() *Graph {
 
 			// Check if va and vb are in MST.
 			//
-			// This step costs O(len(MST)).
-			// If we choose int as ID, the cost could be
-			// reduced to less than O(logV).
+			// This step costs O(1) if implemented properly.
 			va := g.V[e.(SEdge).EndpointA]
 			vb := g.V[e.(SEdge).EndpointB]
 			vaExist := mst.GetVerticleByID(va.ID)
@@ -128,6 +134,9 @@ func (g *Graph) MST() *Graph {
 				}
 			}
 
+		} else {
+			// If ufa==ufb, dispose this edge
+			i--
 		}
 
 	}

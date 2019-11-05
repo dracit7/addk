@@ -19,31 +19,44 @@ var path = "instances/dot"
 // Map transforms a data structure into dot language
 func Map(w io.Writer, is interface{}, spec *Spec) error {
 
-	var appendix string
+	var vertexAppendix string
+	var edgeAppendix string
 
 	fmt.Fprintln(w, "strict graph {")
 	fmt.Fprintln(w, "  node [shape=\"circle\"];")
 
 	switch is.(type) {
+
 	case *graph.Graph:
+
 		// Initialize nodes
 		for _, v := range is.(*graph.Graph).V {
-			fmt.Fprintf(w, "  %d [label=\"%+v\"]\n", v.Serial, v.ID)
+
+			// Visualize mst
+			if spec.MST == true {
+				vertexAppendix = " color=\"red\" style=\"bold,filled\""
+			}
+
+			fmt.Fprintf(w, "  %d [label=\"%+v\"%s]\n", v.Serial, v.ID, vertexAppendix)
+
 		}
+
 		// Initialize edges
 		for _, e := range is.(*graph.Graph).E {
 
 			// Visualize mst
 			if (is.(*graph.Graph).V[e.EndpointA].GetEdgeByEndpoint(e.EndpointB).InMST == true ||
 				is.(*graph.Graph).V[e.EndpointB].GetEdgeByEndpoint(e.EndpointA).InMST == true) && spec.MST == true {
-				appendix = " color=\"red\" style=\"bold\""
+				edgeAppendix = " color=\"red\" style=\"bold\""
 			}
 
 			if is.(*graph.Graph).Type == graph.UNDIRECTED {
-				fmt.Fprintf(w, "  %d -- %d [label=\"%d\"%s]\n", e.EndpointA, e.EndpointB, e.Weight, appendix)
+				fmt.Fprintf(w, "  %d -- %d [label=\"%d\"%s]\n", e.EndpointA, e.EndpointB, e.Weight, edgeAppendix)
 			} else {
-				fmt.Fprintf(w, "  %d -> %d [label=\"%d\"%s]\n", e.EndpointA, e.EndpointB, e.Weight, appendix)
+				fmt.Fprintf(w, "  %d -> %d [label=\"%d\"%s]\n", e.EndpointA, e.EndpointB, e.Weight, edgeAppendix)
 			}
+
+			edgeAppendix = ""
 
 		}
 	// case []graph.SEdge:
