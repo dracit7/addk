@@ -1,50 +1,57 @@
 package algo
 
-const partSize = 5
+// KthSmallest returns the kth smallest element
+func KthSmallest(E []Element, k int) Element {
+	shell := append([]Element{}, E...)
+	return kSmallest(shell, k, 5)
+}
 
-// KSmallest returns the kth smallest element
-func KSmallest(E []Element, k int) Element {
+// KthSmallestCustom returns the kth smallest element,
+// and allow user to specify the `partsize` in the median
+// of median algo.
+func KthSmallestCustom(E []Element, k int, partSize int) Element {
+	shell := append([]Element{}, E...)
+	return kSmallest(shell, k, partSize)
+}
+
+func kSmallest(E []Element, k int, partSize int) Element {
 
 	var M []Element
 	var v Element
 
 	// Recursive exit
 	if len(E) <= partSize {
-		InsertSort(&E)
+		InsertSort(E)
 		return E[k-1]
 	}
 
+	// Find the median of each part
 	for i := 0; i < len(E); i += partSize {
 		var m []Element
 		for j := i; j < len(E) && j < i+partSize; j++ {
 			m = append(m, E[j])
 		}
-		InsertSort(&m)
+		InsertSort(m)
 		M = append(M, m[len(m)/2])
 	}
 
-	if (len(E)/partSize)%2 == 1 {
-		v = KSmallest(M, (1 + (len(E)/partSize)/2))
+	// Find the median of median
+	if len(M) == 1 {
+		v = M[0]
 	} else {
-		v = KSmallest(M, (len(E)/partSize)/2)
+		v = kSmallest(M, len(M)/2, partSize)
 	}
 
-	var j = partition(E, v)
+	// Use the median of median to part the list
+	var pos = partition(E, v)
 
-	if k == j {
+	// Recursive part
+	if k-1 == pos {
 		return v
-	} else if k < j {
-		var A1 []Element
-		for i := 0; i <= j-1; i++ {
-			A1 = append(A1, E[i])
-		}
-		return KSmallest(A1, k)
+	} else if k-1 < pos {
+		return kSmallest(E[:pos], k, partSize)
 	} else {
-		var A2 []Element
-		for i := j - 1; i != len(E); i++ {
-			A2 = append(A2, E[i])
-		}
-		return KSmallest(A2, k-j+1)
+		return kSmallest(E[pos+1:], k-pos-1, partSize)
 	}
 
 }
