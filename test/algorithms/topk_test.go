@@ -32,9 +32,28 @@ func genTestCase(size, max int) ([]algo.Element, int) {
 
 }
 
-func TestKthSmallest(t *testing.T) {
+func TestSparseInt(t *testing.T) {
 
-	testcase, k := genTestCase(10000, 10000)
+	testcase, k := genTestCase(100, 10000)
+
+	// Solve the problem using BruteForce and our topK algo separately
+	std := topkBF(testcase, k)
+	mysol := algo.KthSmallestCustom(testcase, k, 5)
+
+	// Check the correctness of solution
+	if std != mysol {
+		t.Errorf(`
+Testcase: %dth smallest in %v
+Result should be: %d
+Your solution is: %d
+`, k, testcase, std, mysol)
+	}
+
+}
+
+func TestDenseInt(t *testing.T) {
+
+	testcase, k := genTestCase(10000, 10)
 
 	// Solve the problem using BruteForce and our topK algo separately
 	std := topkBF(testcase, k)
